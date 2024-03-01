@@ -1,0 +1,19 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color: #333;
+  background-color: #f2f6fc;
+  --color-text: #333;
+  --color-background: #f2f6fc;
+  --color-primary: #285fe9;
+  --color-button: #285fe9;
+  --color-menu: #a7aeb8;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
