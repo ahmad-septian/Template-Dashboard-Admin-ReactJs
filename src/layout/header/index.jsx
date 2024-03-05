@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { useTheme } from "@mui/material/styles";
 import {
   Toolbar,
@@ -9,11 +10,17 @@ import {
   Avatar,
   Box,
 } from "@mui/material";
-import { Menu, ArrowBack, ChevronRight } from "@mui/icons-material";
+import {
+  Menu,
+  ArrowBack,
+  ChevronRight,
+  Notifications,
+} from "@mui/icons-material";
 import { Drawer, DrawerHeader, AppBar } from "../drawer-sidebar/drawerStyle";
 import MenuItems from "../menu-items";
 import MenuProfile from "./menu-profile";
 import ImageAvatar from "@/assets/images/avatar.png";
+import { useRef } from "react";
 
 export default function Header() {
   const theme = useTheme();
@@ -35,9 +42,31 @@ export default function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleResize = () => {
+    const screenWidth = window.innerWidth;
+    setOpen(screenWidth >= 1400);
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div>
-      <AppBar sx={{ backgroundColor: "#fff" }} position="fixed" open={open}>
+      <AppBar
+        sx={{
+          backgroundColor: "#fff",
+          boxShadow: "none",
+          borderBottom: "1px solid #ccc",
+        }}
+        position="fixed"
+        open={open}
+      >
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton
@@ -64,7 +93,14 @@ export default function Header() {
               Panel Admin Pro
             </Typography>
           </Box>
-          <Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Notifications
+              sx={{
+                color: "var(--color-menu)",
+                fontSize: "1.8rem",
+                marginRight: "10px",
+              }}
+            />
             <Tooltip title="Account settings">
               <IconButton
                 onClick={handleClick}
@@ -139,7 +175,7 @@ export default function Header() {
             </Box>
           </Box>
         </DrawerHeader>
-        
+
         <MenuItems />
       </Drawer>
       <MenuProfile

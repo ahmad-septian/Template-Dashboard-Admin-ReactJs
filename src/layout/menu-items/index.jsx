@@ -7,10 +7,13 @@ import {
   ListItemText,
 } from "@mui/material";
 import { menuItems } from "./list-menu";
+import { useRef } from "react";
+import gsap from "gsap";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function MenuItems() {
   const navigate = useNavigate();
+  const container = useRef(null);
   const location = useLocation();
   const [activeMenu, setActiveMenu] = React.useState("DashboardActive");
   const [openSettings, setOpenSettings] = React.useState(false);
@@ -37,9 +40,12 @@ export default function MenuItems() {
   const handleSettingsClick = () => {
     setOpenSettings(!openSettings);
   };
+  React.useEffect(() => {
+    gsap.fromTo(container.current, { x: -500 }, { x: 0, duration: 1 });
+  }, []);
   return (
     <div>
-      <List>
+      <List ref={container}>
         {menuItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: "block" }}>
             <ListItemButton

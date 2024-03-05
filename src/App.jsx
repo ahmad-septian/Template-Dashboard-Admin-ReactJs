@@ -1,24 +1,38 @@
-import React, { Component, Suspense } from "react";
+import React, { Component, Suspense, useState, useEffect } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import "@/assets/css/index.css";
-import Loading from "@/global-component/Loading";
+import Loading2 from "@/global-component/Loading2";
 
-// Containers
 const DefaultLayout = React.lazy(() => import("@/layout/drawer-sidebar"));
-// Pages
 const Login = React.lazy(() => import("@/pages/login"));
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000); // Ganti angka 2000 dengan waktu loading yang diinginkan dalam milidetik
+  }, []);
   return (
     <div>
-      <HashRouter>
-        <Suspense fallback={Loading}>
-          <Routes>
-            <Route exact path="/login" name="Login Page" element={<Login />} />
-            <Route path="*" name="Home" element={<DefaultLayout />} />
-          </Routes>
-        </Suspense>
-      </HashRouter>
+      {isLoading ? (
+        <Loading2 />
+      ) : (
+        <HashRouter>
+          <Suspense>
+            <Routes>
+              <Route
+                exact
+                path="/login"
+                name="Login Page"
+                element={<Login />}
+              />
+              <Route path="*" name="Home" element={<DefaultLayout />} />
+            </Routes>
+          </Suspense>
+        </HashRouter>
+      )}
     </div>
   );
 }
